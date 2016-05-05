@@ -15,6 +15,9 @@
 - name: Install uwsgi systemd service
   copy: src=emperor.uwsgi.service dest=/etc/systemd/system/emperor.uwsgi.service
 
+- name: Enable autostarting uwsgi
+  service: name=emperor.uwsgi enabled=yes 
+
 - name: Install htpasswd
   htpasswd: name=admin path={{ admin_htpasswd }} password={{ admin_password }} state=present
   notify: reload nginx
