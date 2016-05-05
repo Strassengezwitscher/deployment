@@ -1,0 +1,17 @@
+---
+
+- name: Create group
+  group: name=travis
+
+- name: Create user
+  user: name=travis group=travis
+
+- name: Create .ssh directory
+  file: path=/home/travis/.ssh state=directory mode=0700
+  become_user: travis
+
+- name: Install keys
+  copy: src={{ item.name }} dest=/home/travis/.ssh/ mode={{ item.mode }}
+  become_user: travis
+  with_items:
+    - { name: authorized_keys, mode: "0600" }
