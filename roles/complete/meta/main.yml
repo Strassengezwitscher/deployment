@@ -1,0 +1,8 @@
+---
+
+dependencies:
+  - { role: configuration }
+  - { role: django }
+  - { role: support/nginx }
+  - { role: support/python }
+  - { role: support/uwsgi }

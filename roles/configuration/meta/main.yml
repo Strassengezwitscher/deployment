@@ -1,0 +1,5 @@
+---
+
+dependencies:
+  - { role: support/nginx }
+  - { role: support/uwsgi }

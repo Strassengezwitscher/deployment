@@ -1,0 +1,10 @@
+---
+
+- name: Install uwsgi via pip
+  pip: name=uwsgi
+  become_user: root
+
+- name: Create sites directories
+  file: path={{ item }} owner=root group=root state=directory
+  with_items:
+    - "{{ uwsgi_path }}"

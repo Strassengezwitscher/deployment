@@ -1,0 +1,28 @@
+---
+
+- name: Install packages
+  apt: name=nginx state=present update_cache=yes cache_valid_time=604800
+
+- name: Create sites directories
+  file: path=/etc/nginx/sites-{{ item }} state=directory
+  with_items:
+    - available
+    - enabled
+
+- name: Remove preset config
+  file: name=/etc/nginx/sites-{{ item }}/default state=absent
+  with_items:
+    - available
+    - enabled
+  notify: reload nginx
+
+- name: Install default site
+  copy: src=default.site dest=/etc/nginx/sites-available/default.site
+  notify: reload nginx
+
+- name: Enable default site
+  file: src=/etc/nginx/sites-available/default.site dest=/etc/nginx/sites-enabled/default.site state=link
+  notify: reload nginx
+
+- name: Start
+  service: name=nginx enabled=yes state=started

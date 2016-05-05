@@ -1,0 +1,8 @@
+# ansible generated files
+*.retry
+
+# files containing sensitive data
+sensitive.yml
+
+# IDE files
+.idea

@@ -1,0 +1,40 @@
+- name: Install required packages
+  apt: name={{ item }} state=present update_cache=yes cache_valid_time=604800
+  with_items:
+    - git
+
+- name: Install uwsgi configs
+  template: src=uwsgi.site.j2 dest={{ uwsgi_path }}/{{ item }}.ini
+  with_items:
+    - strassengezwitscher_dev
+    - strassengezwitscher_master
+
+- name: Install uwsgi emperor config
+  copy: src=emperor.ini dest=/etc/uwsgi/emperor.ini
+
+- name: Install uwsgi systemd service
+  copy: src=emperor.uwsgi.service dest=/etc/systemd/system/emperor.uwsgi.service
+
+- name: Install htpasswd
+  htpasswd: name=admin path={{ admin_htpasswd }} password={{ admin_password }} state=present
+  notify: reload nginx
+
+- name: Install nginx configs
+  template: src=nginx.site.j2 dest=/etc/nginx/sites-available/{{ item.branch }}
+  with_items:
+    - { branch: 'strassengezwitscher_dev', server_name: '{{ dev_server_names }}' }
+    - { branch: 'strassengezwitscher_master', server_name: '{{ master_server_names }}' }
+  notify: reload nginx
+
+- name: Enable nginx configs
+  file: src=/etc/nginx/sites-available/{{ item }} dest=/etc/nginx/sites-enabled/{{ item }} state=link
+  with_items:
+    - strassengezwitscher_dev
+    - strassengezwitscher_master
+  notify: reload nginx
+
+- name: Install deployment scripts
+  template: src=deploy.sh.j2 dest=/home/deploy/{{ item.script_name }}.sh mode=0754 owner=deploy group=deploy
+  with_items:
+    - { dir: 'strassengezwitscher_dev', script_name: 'deploy_develop' }
+    - { dir: 'strassengezwitscher_master', script_name: 'deploy_master' }

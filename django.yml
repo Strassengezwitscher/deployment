@@ -1,0 +1,12 @@
+---
+
+- name: Deploy django (master and develop branches) to server
+  hosts: strassengezwitscher
+  remote_user: deploy
+  become_user: root
+  become: yes
+  vars_files:
+    - group_vars/sensitive.yml
+
+  roles:
+    - django

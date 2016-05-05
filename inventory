@@ -1,0 +1,3 @@
+
+[strassengezwitscher]
+strassengezwitscher_server ansible_ssh_host=5.45.110.119

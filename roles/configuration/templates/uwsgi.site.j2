@@ -1,0 +1,13 @@
+[uwsgi]
+chdir           = {{ project_path }}/{{ item }}/strassengezwitscher
+module          = strassengezwitscher.wsgi:application
+env             = DJANGO_SETTINGS_MODULE=strassengezwitscher.settings
+socket          = {{ sockets_path }}/{{ item }}.sock
+processes       = 4
+threads         = 2
+master          = True
+pidfile         = {{ pids_path }}/{{ item }}.pid
+vacuum          = True
+max-requests    = 5000
+daemonize       = /var/log/{{ item }}/uwsgi.log
+harakiri        = 30

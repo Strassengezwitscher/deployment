@@ -1,0 +1,35 @@
+# the upstream component nginx needs to connect to
+upstream {{ item.branch }} {
+    server unix:///{{ sockets_path }}/{{ item.branch }}.sock;
+}
+
+# configuration of the server
+server {
+    # the port your site will be served on
+    listen      80;
+    #return         301 https://$server_name$request_uri;
+    # the domain name it will serve for
+    server_name    {{ item.server_name }};
+    charset     utf-8;
+
+    access_log /var/log/nginx/{{ item.branch }}.log;
+    error_log /var/log/nginx/{{ item.branch }}.err;
+
+    # max upload size
+    client_max_body_size 75M;   # adjust to taste
+
+    # Django media
+    location /media  {
+        alias {{ project_path }}/{{ item.branch }}/strassengezwitscher/media;  # Django project's media files
+    }
+
+    location /static {
+        alias {{ project_path }}/{{ item.branch }}/strassengezwitscher/static; # Django project's static files
+    }
+
+    # Finally, send all non-media requests to the Django server.
+    location / {
+        uwsgi_pass  {{ item.branch }};
+        include     uwsgi_params;
+    }
+}

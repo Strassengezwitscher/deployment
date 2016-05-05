@@ -1,0 +1,5 @@
+---
+
+dependencies:
+  - { role: support/python }
+  - { role: support/dirs }

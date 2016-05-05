@@ -1,0 +1,32 @@
+---
+
+- name: Fetch repository
+  git: accept_hostkey=yes force=yes repo=git@github.com:Strassengezwitscher/Strassengezwitscher.git dest={{ project_path }}/{{ item.dir }}/ version={{ item.branch }}
+  become_user: root
+  with_items:
+    - { dir: '{{ dir }}', branch: '{{ branch }}' }
+  notify: restart uwsgi
+
+- name: Install python packages
+  pip: requirements={{ project_path }}/{{ item }}/requirements.txt
+  become_user: root
+  with_items:
+    - '{{ dir }}'
+
+- name: Collect django staticfiles
+  django_manage: app_path={{ project_path }}/{{ item }}/strassengezwitscher/ command=collectstatic
+  become_user: root
+  with_items:
+    - '{{ dir }}'
+
+- name: Migrate django databases
+  django_manage: app_path={{ project_path }}/{{ item }}/strassengezwitscher/ command=migrate
+  become_user: root
+  with_items:
+    - '{{ dir }}'
+
+- name: make www-data owner of the repository
+  file: path={{ project_path }}/{{ item }} owner=www-data group=www-data recurse=yes
+  become_user: root
+  with_items:
+    - '{{ dir }}'

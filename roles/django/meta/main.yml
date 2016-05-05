@@ -1,0 +1,5 @@
+---
+
+dependencies:
+  - { role: strassengezwitscher, dir: 'strassengezwitscher_master', branch: 'master' }
+  - { role: strassengezwitscher, dir: 'strassengezwitscher_dev', branch: 'develop' }
