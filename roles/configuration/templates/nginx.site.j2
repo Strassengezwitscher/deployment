@@ -12,6 +12,11 @@ server {
     server_name    {{ item.server_name }};
     charset     utf-8;
 
+    {% if item.htaccess is defined %}
+    auth_basic "Restricted";
+    auth_basic_user_file {{ admin_htpasswd }};
+    {% endif %}
+
     access_log /var/log/nginx/{{ item.branch }}.log;
     error_log /var/log/nginx/{{ item.branch }}.err;
 

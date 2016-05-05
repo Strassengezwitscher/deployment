@@ -22,7 +22,7 @@
 - name: Install nginx configs
   template: src=nginx.site.j2 dest=/etc/nginx/sites-available/{{ item.branch }}
   with_items:
-    - { branch: 'strassengezwitscher_dev', server_name: '{{ dev_server_names }}' }
+    - { branch: 'strassengezwitscher_dev', server_name: '{{ dev_server_names }}', htaccess: True }
     - { branch: 'strassengezwitscher_master', server_name: '{{ master_server_names }}' }
   notify: reload nginx
 
