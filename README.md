@@ -14,6 +14,8 @@ This does not configure the whole server. There are some things you need to do m
 - Create a user `deploy` as these scripts will act in its name.
 - Add the `deploy` user to the `sudoers` file.
 
+Moreover, this setup targets Ubuntu 16.04 LTS.
+
 ## Preparation
 For the deployment to our server to work you need some sensitive data which is not part of this repository. You will need to create the file `group_vars/sensitive.yml` with the correct values for the dummy keys from `group_vars/all`.
 
