@@ -9,5 +9,7 @@ master          = True
 pidfile         = {{ pids_path }}/{{ item }}.pid
 vacuum          = True
 max-requests    = 5000
+stats           = {{ sockets_path }}/{{ item }}_stats.sock
+memory-report   = True
 daemonize       = /var/log/{{ item }}/uwsgi.log
 harakiri        = 30
