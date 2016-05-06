@@ -32,3 +32,9 @@ Example:
 `
 ./deploy.sh master.yml
 `
+
+## Using this deployment for your own server
+
+If you are not part of the Strassengezwitscher team and choose to deploy the [Strassengezwitscher Django app](https://github.com/Strassengezwitscher/Strassengezwitscher) to your own server, consider the following (besides adapting IPs etc.):
+
+If you want Travis to deploy the code automatically, it needs to authenticate to your server, e.g. using public key authentication. However, you don't want a private key to be in a public repository. Fortunately, Travis can deal with encrypted data, so adding an encrypted private key to the repository is a viable option. For details check the [Travis documentation](https://docs.travis-ci.com/user/encrypting-files/).
