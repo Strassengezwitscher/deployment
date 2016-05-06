@@ -16,7 +16,13 @@
   copy: src=emperor.uwsgi.service dest=/etc/systemd/system/emperor.uwsgi.service
 
 - name: Enable autostarting uwsgi
-  service: name=emperor.uwsgi enabled=yes 
+  service: name=emperor.uwsgi enabled=yes
+
+- name: Install uwsgi reload scripts
+  template: src=reload.sh.j2 dest=/root/reload_{{ item }}.sh mode=0754
+  with_items:
+    - strassengezwitscher_dev
+    - strassengezwitscher_master
 
 - name: Install htpasswd
   htpasswd: name=admin path={{ admin_htpasswd }} password={{ admin_password }} state=present
