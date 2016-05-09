@@ -7,6 +7,9 @@
     - { dir: '{{ dir }}', branch: '{{ branch }}' }
   notify: restart uwsgi
 
+- name: Install dependencies using npm
+  npm: path={{ project_path }}/{{ dir }} production=yes global=no
+
 - name: Install python packages
   pip: requirements={{ project_path }}/{{ item }}/requirements.txt
   become_user: root
