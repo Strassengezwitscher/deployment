@@ -7,7 +7,9 @@ git reset --hard
 git pull
 pip install -r requirements.txt
 npm install
-cd strassengezwitscher
-python manage.py collectstatic --noinput
-python manage.py migrate --noinput
+if [ -f gulpfile.js ]; then
+	node_modules/gulp/bin/gulp.js build --production
+fi
+python strassengezwitscher/manage.py collectstatic --noinput
+python strassengezwitscher/manage.py migrate --noinput
 chown -R www-data:www-data {{ project_path }}/{{ item.dir }}

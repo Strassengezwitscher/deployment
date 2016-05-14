@@ -1,4 +1,10 @@
 ---
 
-- name: Install npm
+- name: Install node.js and npm
   apt: name=npm state=present update_cache=yes cache_valid_time=604800
+  with_items:
+    - nodejs
+    - npm
+
+- name: Create symlink to have both nodejs and node commands available
+  file: src=/usr/bin/nodejs dest=/usr/local/bin/node state=link

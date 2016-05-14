@@ -10,6 +10,12 @@
 - name: Install dependencies using npm
   npm: path={{ project_path }}/{{ dir }} production=yes global=no
 
+- name: Run gulp
+  command: node_modules/gulp/bin/gulp.js build --production
+  args:
+    chdir: '{{ project_path }}/{{ dir }}/'
+    removes: '{{ project_path }}/{{ dir }}/gulpfile.js' # run only if gulpfile.js exists (it is not removed)
+
 - name: Install python packages
   pip: requirements={{ project_path }}/{{ item }}/requirements.txt
   become_user: root
