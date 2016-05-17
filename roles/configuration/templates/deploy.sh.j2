@@ -8,7 +8,7 @@ git pull
 pip install -r requirements.txt
 npm install
 if [ -f gulpfile.js ]; then
-	node_modules/gulp/bin/gulp.js build --production
+	node_modules/gulp/bin/gulp.js dist --production
 fi
 python strassengezwitscher/manage.py collectstatic --noinput
 python strassengezwitscher/manage.py migrate --noinput

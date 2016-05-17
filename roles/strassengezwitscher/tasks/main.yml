@@ -11,7 +11,7 @@
   npm: path={{ project_path }}/{{ dir }} production=yes global=no
 
 - name: Run gulp
-  command: node_modules/gulp/bin/gulp.js build --production
+  command: node_modules/gulp/bin/gulp.js dist --production
   args:
     chdir: '{{ project_path }}/{{ dir }}/'
     removes: '{{ project_path }}/{{ dir }}/gulpfile.js' # run only if gulpfile.js exists (it is not removed)
