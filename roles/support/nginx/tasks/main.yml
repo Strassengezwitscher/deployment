@@ -11,6 +11,11 @@
     - available
     - enabled
 
+- name: Install global restrictions
+  copy: src=global_restrictions.conf dest=/etc/nginx/global_restrictions.conf
+  become: yes
+  notify: reload nginx
+
 - name: Remove default config
   file: name=/etc/nginx/sites-{{ item }}/default state=absent
   become: yes

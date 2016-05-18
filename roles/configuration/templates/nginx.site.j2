@@ -23,6 +23,8 @@ server {
     # max upload size
     client_max_body_size 75M;   # adjust to taste
 
+    include global_restrictions.conf;
+
     # Django media
     location /media  {
         alias {{ project_path }}/{{ item.branch }}/strassengezwitscher/media;  # Django project's media files
