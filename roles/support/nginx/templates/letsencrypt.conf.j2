@@ -1,0 +1,5 @@
+# Allow accessing .well-known/acme-challenge directory for renewing Let's Encrypt certificates
+location ^~ /.well-known/acme-challenge/ {
+    auth_basic off;
+    root {{ letsencrypt_webroot }};
+}

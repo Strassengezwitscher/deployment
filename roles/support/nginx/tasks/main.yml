@@ -1,8 +1,11 @@
 ---
 
 - name: Install packages
-  apt: name=nginx state=present update_cache=yes cache_valid_time=604800
+  apt: name={{ item }} state=present update_cache=yes cache_valid_time=604800
   become: yes
+  with_items:
+    - nginx
+    - letsencrypt
 
 - name: Create sites directories
   file: path=/etc/nginx/sites-{{ item }} state=directory
@@ -11,8 +14,17 @@
     - available
     - enabled
 
+- name: Create letsencrypt webroot directory
+  file: path={{ letsencrypt_webroot }} state=directory
+  become: yes
+
 - name: Install global restrictions
   copy: src=global_restrictions.conf dest=/etc/nginx/global_restrictions.conf
+  become: yes
+  notify: reload nginx
+
+- name: Install support for letsencrypt webroot
+  template: src=letsencrypt.conf.j2 dest=/etc/nginx/letsencrypt.conf
   become: yes
   notify: reload nginx
 
