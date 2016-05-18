@@ -13,6 +13,6 @@ logs_path: /var/log
 project_path: /home/deploy
 sockets_path: /run/uwsgi
 pids_path: /run/uwsgi
-master_server_names: streetcoverage.org www.streetcoverage.org strassengezwitschwitscher.de www.strassengezwitscher.de sg
+master_server_names: streetcoverage.org www.streetcoverage.org strassengezwitscher.de www.strassengezwitscher.de sg
 dev_server_names: dev.streetcoverage.org sgdev
 letsencrypt_webroot: /var/www/letsencrypt
