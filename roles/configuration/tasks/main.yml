@@ -60,6 +60,14 @@
     - strassengezwitscher_master
   notify: reload nginx
 
+- name: Get TLS certificates
+  command: letsencrypt certonly --webroot -w {{ letsencrypt_webroot}} {{ item }} --non-interactive
+  become: yes
+  with_items:
+    - "-d streetcoverage.org -d www.streetcoverage.org"
+    - "-d strassengezwitscher.de -d www.strassengezwitscher.de"
+    - "-d dev.streetcoverage.org"
+
 - name: Install deployment scripts
   template: src=deploy.sh.j2 dest=/home/deploy/{{ item.script_name }}.sh mode=0754
   with_items:
