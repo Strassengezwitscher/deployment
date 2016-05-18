@@ -9,4 +9,4 @@
     - group_vars/sensitive.yml
 
   roles:
-    - { role: strassengezwitscher, dir: 'strassengezwitscher_dev', branch: 'develop' }
+    - { role: strassengezwitscher, dir: 'strassengezwitscher_dev', branch: 'develop', secret_key: '{{ django_develop_secret_key }}' }

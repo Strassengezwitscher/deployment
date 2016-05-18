@@ -2,6 +2,8 @@
 
 ansible_become_pass:    < set me in ./sensitive.yml >
 admin_password:         < set me in ./sensitive.yml >
+django_master_secret_key:   < set me in ./sensitive.yml >
+django_develop_secret_key:  < set me in ./sensitive.yml >
 
 admin_htpasswd: /etc/nginx/htpasswd_strassengezwitscher_dev_admin
 uwsgi_path: /etc/uwsgi/vassals

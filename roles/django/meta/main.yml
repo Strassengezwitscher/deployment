@@ -1,5 +1,5 @@
 ---
 
 dependencies:
-  - { role: strassengezwitscher, dir: 'strassengezwitscher_master', branch: 'master' }
-  - { role: strassengezwitscher, dir: 'strassengezwitscher_dev', branch: 'develop' }
+  - { role: strassengezwitscher, dir: 'strassengezwitscher_master', branch: 'master', secret_key: '{{ django_master_secret_key }}' }
+  - { role: strassengezwitscher, dir: 'strassengezwitscher_dev', branch: 'develop', secret_key: '{{ django_develop_secret_key }}' }
