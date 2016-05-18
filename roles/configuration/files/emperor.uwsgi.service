@@ -4,7 +4,7 @@ After=syslog.target
 
 [Service]
 ExecStart=/usr/local/bin/uwsgi --ini /etc/uwsgi/emperor.ini
-User=www-data
+User=deploy
 Group=www-data
 RuntimeDirectory=uwsgi
 Restart=always

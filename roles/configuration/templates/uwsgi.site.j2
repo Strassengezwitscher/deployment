@@ -3,6 +3,7 @@ chdir           = {{ project_path }}/{{ item }}/strassengezwitscher
 module          = strassengezwitscher.wsgi:application
 env             = DJANGO_SETTINGS_MODULE=strassengezwitscher.settings
 socket          = {{ sockets_path }}/{{ item }}.sock
+chmod-socket 	= 664
 processes       = 4
 threads         = 2
 master          = True
