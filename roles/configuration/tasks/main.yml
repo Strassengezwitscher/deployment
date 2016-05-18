@@ -61,15 +61,13 @@
   notify: reload nginx
 
 - name: Install deployment scripts
-  template: src=deploy.sh.j2 dest=/home/{{ item.user }}/{{ item.script_name }}.sh mode=0754 owner={{ item.user }} group={{ item.user }}
+  template: src=deploy.sh.j2 dest=/home/deploy/{{ item.script_name }}.sh mode=0754
   with_items:
-    - { user: 'deploy', dir: 'strassengezwitscher_dev', script_name: 'deploy_develop' }
-    - { user: 'travis', dir: 'strassengezwitscher_dev', script_name: 'deploy_develop' }
-    - { user: 'deploy', dir: 'strassengezwitscher_master', script_name: 'deploy_master' }
-    - { user: 'travis', dir: 'strassengezwitscher_master', script_name: 'deploy_master' }
+    - { dir: 'strassengezwitscher_dev', script_name: 'deploy_develop' }
+    - { dir: 'strassengezwitscher_master', script_name: 'deploy_master' }
 
 - name: allow travis to run deployment scripts
-  lineinfile: 'dest=/etc/sudoers state=present line="travis ALL=(ALL) NOPASSWD: /home/travis/deploy_{{ item }}.sh"'
+  lineinfile: 'dest=/etc/sudoers state=present line="travis ALL=(deploy) NOPASSWD: /home/deploy/deploy_{{ item }}.sh"'
   become: yes
   with_items:
     - master
