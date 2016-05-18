@@ -11,8 +11,8 @@ Use this ansible-based repository to deploy stuff to the Strassengezwitscher ser
 This does not configure the whole server. There are some things you need to do manually first:
 
 - Setup and harden your SSH and setup public key authentication.
-- Create a user `deploy` as these scripts will act in its name.
-- Add the `deploy` user to the `sudoers` file.
+- Create a user and a group `deploy` and add the user to the group as these scripts rely on both to exist.
+- Add the `deploy` user to the `sudoers` file: `deploy ALL=(ALL) ALL`
 
 Moreover, this setup targets Ubuntu 16.04 LTS.
 
