@@ -2,15 +2,18 @@
 
 - name: Install packages
   apt: name=nginx state=present update_cache=yes cache_valid_time=604800
+  become: yes
 
 - name: Create sites directories
   file: path=/etc/nginx/sites-{{ item }} state=directory
+  become: yes
   with_items:
     - available
     - enabled
 
 - name: Remove default config
   file: name=/etc/nginx/sites-{{ item }}/default state=absent
+  become: yes
   with_items:
     - available
     - enabled
@@ -18,11 +21,14 @@
 
 - name: Install default site
   copy: src=default.site dest=/etc/nginx/sites-available/default.site
+  become: yes
   notify: reload nginx
 
 - name: Enable default site
   file: src=/etc/nginx/sites-available/default.site dest=/etc/nginx/sites-enabled/default.site state=link
+  become: yes
   notify: reload nginx
 
 - name: Start
   service: name=nginx enabled=yes state=started
+  become: yes

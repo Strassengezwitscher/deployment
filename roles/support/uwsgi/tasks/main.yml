@@ -2,12 +2,13 @@
 
 - name: Install uwsgi via pip
   pip: name={{ item }}
-  become_user: root
+  become: yes
   with_items:
     - uwsgi
     - uwsgitop
 
 - name: Create sites directories
-  file: path={{ item }} owner=root group=root state=directory
+  file: path={{ item }} state=directory
+  become: yes
   with_items:
     - "{{ uwsgi_path }}"

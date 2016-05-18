@@ -1,10 +1,12 @@
 - name: Install required packages
   apt: name={{ item }} state=present update_cache=yes cache_valid_time=604800
+  become: yes
   with_items:
     - git
 
 - name: Install uwsgi configs
   template: src=uwsgi.site.j2 dest={{ uwsgi_path }}/{{ item }}.ini
+  become: yes
   with_items:
     - strassengezwitscher_dev
     - strassengezwitscher_master
@@ -12,7 +14,9 @@
 
 - name: Install uwsgi emperor config
   template: src=emperor.ini.j2 dest=/etc/uwsgi/emperor.ini
+  become: yes
   notify: restart uwsgi
+
 - name: Create uwsgi log files
   file: path={{ logs_path }}/{{ item }} owner=deploy group=deploy state=touch
   with_items:
@@ -22,22 +26,27 @@
 
 - name: Install uwsgi systemd service
   copy: src=emperor.uwsgi.service dest=/etc/systemd/system/emperor.uwsgi.service
+  become: yes
 
 - name: Enable autostarting uwsgi
   service: name=emperor.uwsgi enabled=yes
+  become: yes
 
 - name: Install uwsgi reload scripts
   template: src=reload.sh.j2 dest=/root/reload_{{ item }}.sh mode=0754
+  become: yes
   with_items:
     - strassengezwitscher_dev
     - strassengezwitscher_master
 
 - name: Install htpasswd
   htpasswd: name=admin path={{ admin_htpasswd }} password={{ admin_password }} state=present
+  become: yes
   notify: reload nginx
 
 - name: Install nginx configs
   template: src=nginx.site.j2 dest=/etc/nginx/sites-available/{{ item.branch }}
+  become: yes
   with_items:
     - { branch: 'strassengezwitscher_dev', server_name: '{{ dev_server_names }}', htaccess: True }
     - { branch: 'strassengezwitscher_master', server_name: '{{ master_server_names }}' }
@@ -45,6 +54,7 @@
 
 - name: Enable nginx configs
   file: src=/etc/nginx/sites-available/{{ item }} dest=/etc/nginx/sites-enabled/{{ item }} state=link
+  become: yes
   with_items:
     - strassengezwitscher_dev
     - strassengezwitscher_master
@@ -60,6 +70,7 @@
 
 - name: allow travis to run deployment scripts
   lineinfile: 'dest=/etc/sudoers state=present line="travis ALL=(ALL) NOPASSWD: /home/travis/deploy_{{ item }}.sh"'
+  become: yes
   with_items:
     - master
     - develop

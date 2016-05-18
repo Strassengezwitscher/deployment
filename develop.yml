@@ -3,8 +3,6 @@
 - name: Deploy django develop branch to server
   hosts: strassengezwitscher
   remote_user: deploy
-  become_user: root
-  become: yes
   vars_files:
     - group_vars/sensitive.yml
 

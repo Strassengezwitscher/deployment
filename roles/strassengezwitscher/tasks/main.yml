@@ -18,13 +18,12 @@
 
 - name: Install python packages
   pip: requirements={{ project_path }}/{{ item }}/requirements.txt
-  become_user: root
+  become: yes
   with_items:
     - '{{ dir }}'
 
 - name: Collect django staticfiles
   django_manage: app_path={{ project_path }}/{{ item }}/strassengezwitscher/ command=collectstatic
-  become_user: root
   with_items:
     - '{{ dir }}'
 
