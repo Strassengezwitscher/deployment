@@ -33,12 +33,5 @@
 
 - name: Migrate django databases
   django_manage: app_path={{ project_path }}/{{ item }}/strassengezwitscher/ command=migrate
-  become_user: root
-  with_items:
-    - '{{ dir }}'
-
-- name: make www-data owner of the repository
-  file: path={{ project_path }}/{{ item }} owner=www-data group=www-data recurse=yes
-  become_user: root
   with_items:
     - '{{ dir }}'

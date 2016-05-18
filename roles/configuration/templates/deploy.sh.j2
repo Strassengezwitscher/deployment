@@ -12,4 +12,3 @@ if [ -f gulpfile.js ]; then
 fi
 python strassengezwitscher/manage.py collectstatic --noinput
 python strassengezwitscher/manage.py migrate --noinput
-chown -R www-data:www-data {{ project_path }}/{{ item.dir }}
