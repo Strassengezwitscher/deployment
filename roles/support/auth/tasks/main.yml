@@ -1,9 +1,9 @@
 ---
 
-- name: Create group
+- name: Create travis group
   group: name=travis
 
-- name: Create user
+- name: Create travis user
   user: name=travis group=travis
 
 - name: Create .ssh directory

@@ -1,10 +1,7 @@
 ---
 
 - name: Fetch repository
-  git: accept_hostkey=yes force=yes repo=git@github.com:Strassengezwitscher/Strassengezwitscher.git dest={{ project_path }}/{{ item.dir }}/ version={{ item.branch }}
-  become_user: root
-  with_items:
-    - { dir: '{{ dir }}', branch: '{{ branch }}' }
+  git: accept_hostkey=yes force=yes repo=git@github.com:Strassengezwitscher/Strassengezwitscher.git dest={{ project_path }}/{{ dir }}/ version={{ branch }}
   notify: restart uwsgi
 
 - name: Install production specific django settings
