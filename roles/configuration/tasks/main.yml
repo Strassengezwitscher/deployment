@@ -10,7 +10,13 @@
     - strassengezwitscher_master
 
 - name: Install uwsgi emperor config
-  copy: src=emperor.ini dest=/etc/uwsgi/emperor.ini
+  template: src=emperor.ini.j2 dest=/etc/uwsgi/emperor.ini
+- name: Create uwsgi log files
+  file: path={{ logs_path }}/{{ item }} owner=deploy group=deploy state=touch
+  with_items:
+    - "{{ uwsgi_emperor_log_name }}"
+    - strassengezwitscher_dev/{{ uwsgi_site_log_name }}
+    - strassengezwitscher_master/{{ uwsgi_site_log_name }}
 
 - name: Install uwsgi systemd service
   copy: src=emperor.uwsgi.service dest=/etc/systemd/system/emperor.uwsgi.service

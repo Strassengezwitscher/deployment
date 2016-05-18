@@ -11,5 +11,5 @@ vacuum          = True
 max-requests    = 5000
 stats           = {{ sockets_path }}/{{ item }}_stats.sock
 memory-report   = True
-daemonize       = /var/log/{{ item }}/uwsgi.log
+daemonize       = {{ logs_path }}/{{ item }}/{{ uwsgi_site_log_name }}
 harakiri        = 30

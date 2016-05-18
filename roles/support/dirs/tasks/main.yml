@@ -3,5 +3,5 @@
 - name: Create directories owned by www-data
   file: dest={{ item }} owner=www-data group=www-data state=directory
   with_items:
-    - "{{ logs_dev_path }}"
-    - "{{ logs_master_path }}"
+    - "{{ logs_path }}/strassengezwitscher_dev"
+    - "{{ logs_path }}/strassengezwitscher_master"
