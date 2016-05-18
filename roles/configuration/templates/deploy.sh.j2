@@ -12,3 +12,6 @@ if [ -f gulpfile.js ]; then
 fi
 python strassengezwitscher/manage.py collectstatic --noinput
 python strassengezwitscher/manage.py migrate --noinput
+if [ -f /run/uwsgi/{{ item.dir }}.pid ]; then
+	uwsgi --reload /run/uwsgi/{{ item.dir }}.pid
+fi
