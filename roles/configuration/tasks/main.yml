@@ -8,9 +8,11 @@
   with_items:
     - strassengezwitscher_dev
     - strassengezwitscher_master
+  notify: restart uwsgi
 
 - name: Install uwsgi emperor config
   template: src=emperor.ini.j2 dest=/etc/uwsgi/emperor.ini
+  notify: restart uwsgi
 - name: Create uwsgi log files
   file: path={{ logs_path }}/{{ item }} owner=deploy group=deploy state=touch
   with_items:
