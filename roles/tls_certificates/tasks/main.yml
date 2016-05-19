@@ -19,6 +19,7 @@
   with_items:
     - "-d streetcoverage.org -d www.streetcoverage.org -d strassengezwitscher.de -d www.strassengezwitscher.de"
     - "-d dev.streetcoverage.org"
+    - "-d mattermost.streetcoverage.org"
 
 # TODO: enable after ansible 2.1 is released. Remove absolute path for letsencrypt as well.
 # - name: create PATH for cron
