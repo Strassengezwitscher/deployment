@@ -1,0 +1,10 @@
+---
+
+- name: Get TLS certificates
+  hosts: strassengezwitscher
+  remote_user: deploy
+  vars_files:
+    - group_vars/sensitive.yml
+
+  roles:
+    - tls_certificates
