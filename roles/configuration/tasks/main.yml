@@ -44,12 +44,12 @@
   become: yes
   notify: reload nginx
 
-- name: Install nginx configs
-  template: src=nginx.site.j2 dest=/etc/nginx/sites-available/{{ item.branch }}
+- name: Install https nginx configs
+  template: src=nginx_tls.site.j2 dest=/etc/nginx/sites-available/{{ item.branch }}
   become: yes
   with_items:
-    - { branch: 'strassengezwitscher_dev', server_name: '{{ dev_server_names }}', htaccess: True }
-    - { branch: 'strassengezwitscher_master', server_name: '{{ master_server_names }}' }
+    - { branch: 'strassengezwitscher_dev', server_name: '{{ dev_server_names }}', dir: 'dev.streetcoverage.org', htaccess: True }
+    - { branch: 'strassengezwitscher_master', server_name: '{{ master_server_names }}', dir: 'streetcoverage.org' }
   notify: reload nginx
 
 - name: Enable nginx configs
@@ -59,14 +59,6 @@
     - strassengezwitscher_dev
     - strassengezwitscher_master
   notify: reload nginx
-
-- name: Get TLS certificates
-  command: letsencrypt certonly --webroot -w {{ letsencrypt_webroot}} {{ item }} --non-interactive
-  become: yes
-  with_items:
-    - "-d streetcoverage.org -d www.streetcoverage.org"
-    - "-d strassengezwitscher.de -d www.strassengezwitscher.de"
-    - "-d dev.streetcoverage.org"
 
 - name: Install deployment scripts
   template: src=deploy.sh.j2 dest=/home/deploy/{{ item.script_name }}.sh mode=0754
