@@ -1,13 +1,11 @@
 - name: Install http-only nginx config(s)
   template: src=nginx_no_tls.site.j2 dest=/etc/nginx/sites-available/{{ item.branch }}
-  become: yes
   with_items:
     - { branch: 'strassengezwitscher_dev', server_name: '{{ dev_server_names }}', dir: 'dev.streetcoverage.org', htaccess: True }
     - { branch: 'strassengezwitscher_master', server_name: '{{ master_server_names }}', dir: 'streetcoverage.org' }
 
 - name: Enable nginx configs
   file: src=/etc/nginx/sites-available/{{ item }} dest=/etc/nginx/sites-enabled/{{ item }} state=link
-  become: yes
   with_items:
     - strassengezwitscher_dev
     - strassengezwitscher_master
@@ -15,11 +13,9 @@
 
 - name: Start nginx
   service: name=nginx enabled=yes state=started
-  become: yes
 
 - name: Get TLS certificates
   command: letsencrypt certonly --webroot -w {{ letsencrypt_webroot}} {{ item }} --non-interactive
-  become: yes
   with_items:
     - "-d streetcoverage.org -d www.streetcoverage.org -d strassengezwitscher.de -d www.strassengezwitscher.de"
     - "-d dev.streetcoverage.org"
@@ -30,4 +26,3 @@
 
 - name: Use cron to renew TLS certificates
   cron: name="Renew TLS certificates" hour=4 minute=10 weekday=0 job="/usr/bin/letsencrypt renew --non-interactive > /dev/null 2>&1"
-  become: yes
