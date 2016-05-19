@@ -17,12 +17,19 @@
   become: yes
   notify: restart uwsgi
 
-- name: Create uwsgi log files
-  file: path={{ logs_path }}/{{ item }} owner=deploy group=deploy state=touch
+- name: Check if uwsgi log files exist
+  stat: path={{ logs_path }}/{{ item }}
   with_items:
     - "{{ uwsgi_emperor_log_name }}"
     - strassengezwitscher_dev/{{ uwsgi_site_log_name }}
     - strassengezwitscher_master/{{ uwsgi_site_log_name }}
+  register: logs_exist
+
+- name: Create uwsgi log files
+  file: path={{ logs_path }}/{{ item.item }} state=touch owner=deploy group=deploy
+  become: yes
+  when: not item.stat.exists
+  with_items: '{{ logs_exist.results }}'
 
 - name: Install uwsgi systemd service
   copy: src=emperor.uwsgi.service dest=/etc/systemd/system/emperor.uwsgi.service
