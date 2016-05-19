@@ -15,7 +15,7 @@ sockets_path: /run/uwsgi
 pids_path: /run/uwsgi
 letsencrypt_webroot: /var/www/letsencrypt
 
-# The domain names are hardcoded in roles/configuration/tasks/main.yml again for getting TLS certificates.
+# The domain names are hardcoded in roles/tls_certificates/tasks/main.yml again for getting TLS certificates.
 # If you change something here you might want to apply your changes there, too.
 master_server_names: streetcoverage.org www.streetcoverage.org strassengezwitscher.de www.strassengezwitscher.de sg
 dev_server_names: dev.streetcoverage.org sgdev

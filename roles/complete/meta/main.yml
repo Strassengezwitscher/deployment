@@ -1,6 +1,7 @@
 ---
 
 dependencies:
+  - { role: tls_certificates }
   - { role: configuration }
   - { role: django }
   - { role: support/nginx }

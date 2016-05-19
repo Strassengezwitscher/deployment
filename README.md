@@ -23,7 +23,8 @@ For the deployment to our server to work you need some sensitive data which is n
 Just run `deploy.sh` and let it know which parts you want to deploy. You can choose from:
 
 - complete.yml - deploys everything
-- configuration.yml - deploys the configuration (nginx, uwsgi etc.)
+- tls_certificates.yml - installs TLS certificates
+- configuration.yml - deploys the configuration (nginx, uwsgi etc.) (make sure you ran complete.yml or tls_certificates.yml before)
 - django.yml - deploys the master and develop branches
 - master.yml - deploys the master branch
 - develop.yml - deploys the develop branch
