@@ -17,17 +17,16 @@
     removes: '{{ project_path }}/{{ dir }}/gulpfile.js' # run only if gulpfile.js exists (it is not removed)
 
 - name: Install python packages
-  pip: requirements={{ project_path }}/{{ item }}/requirements.txt
-  become: yes
+  pip: requirements={{ project_path }}/{{ item }}/requirements.txt virtualenv={{ project_path }}/{{ item }}/venv
   with_items:
     - '{{ dir }}'
 
 - name: Collect django staticfiles
-  django_manage: app_path={{ project_path }}/{{ item }}/strassengezwitscher/ command=collectstatic
+  django_manage: app_path={{ project_path }}/{{ item }}/strassengezwitscher/ command=collectstatic virtualenv={{ project_path }}/{{ item }}/venv
   with_items:
     - '{{ dir }}'
 
 - name: Migrate django databases
-  django_manage: app_path={{ project_path }}/{{ item }}/strassengezwitscher/ command=migrate
+  django_manage: app_path={{ project_path }}/{{ item }}/strassengezwitscher/ command=migrate virtualenv={{ project_path }}/{{ item }}/venv
   with_items:
     - '{{ dir }}'
