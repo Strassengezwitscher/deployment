@@ -43,6 +43,10 @@ server {
         alias {{ project_path }}/{{ item.branch }}/strassengezwitscher/static; # Django project's static files
     }
 
+    {% if item.wordpress is defined %}
+    include include.d/2gather.conf;
+    {% endif %}
+
     # Finally, send all non-media requests to the Django server.
     location / {
         uwsgi_pass  {{ item.branch }};

@@ -56,7 +56,7 @@
   become: yes
   with_items:
     - { branch: 'strassengezwitscher_dev', server_name: '{{ dev_server_names }}', dir: 'dev.streetcoverage.org', htaccess: True }
-    - { branch: 'strassengezwitscher_master', server_name: '{{ master_server_names }}', dir: 'streetcoverage.org' }
+    - { branch: 'strassengezwitscher_master', server_name: '{{ master_server_names }}', dir: 'streetcoverage.org', wordpress: True }
   notify: reload nginx
 
 - name: Enable nginx configs
