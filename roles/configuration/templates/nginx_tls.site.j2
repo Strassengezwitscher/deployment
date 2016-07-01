@@ -31,8 +31,8 @@ server {
     # max upload size
     client_max_body_size 75M;   # adjust to taste
 
-    include letsencrypt.conf;
-    include global_restrictions.conf;
+    include include.d/letsencrypt.conf;
+    include include.d/global_restrictions.conf;
 
     # Django media
     location /media  {

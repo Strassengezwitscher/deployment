@@ -14,17 +14,21 @@
     - available
     - enabled
 
+- name: Create include.d directory
+  file: path=/etc/nginx/include.d state=directory
+  become: yes
+
 - name: Create letsencrypt webroot directory
   file: path={{ letsencrypt_webroot }} state=directory
   become: yes
 
 - name: Install global restrictions
-  copy: src=global_restrictions.conf dest=/etc/nginx/global_restrictions.conf
+  copy: src=global_restrictions.conf dest=/etc/nginx/include.d/global_restrictions.conf
   become: yes
   notify: reload nginx
 
 - name: Install support for letsencrypt webroot
-  template: src=letsencrypt.conf.j2 dest=/etc/nginx/letsencrypt.conf
+  template: src=letsencrypt.conf.j2 dest=/etc/nginx/include.d/letsencrypt.conf
   become: yes
   notify: reload nginx
 
