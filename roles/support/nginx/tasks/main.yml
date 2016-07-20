@@ -27,6 +27,11 @@
   become: yes
   notify: reload nginx
 
+- name: Install fastcgi parameter configuration
+  copy: src=fastcgi.conf dest=/etc/nginx/fastcgi.conf
+  become: yes
+  notify: reload nginx
+
 - name: Install support for letsencrypt webroot
   template: src=letsencrypt.conf.j2 dest=/etc/nginx/include.d/letsencrypt.conf
   become: yes
