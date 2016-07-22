@@ -4,7 +4,7 @@ module          = strassengezwitscher.wsgi:application
 env             = DJANGO_SETTINGS_MODULE=strassengezwitscher.settings
 virtualenv      = {{ project_path }}/{{ item }}/venv
 socket          = {{ sockets_path }}/{{ item }}.sock
-chmod-socket 	= 664
+chmod-socket    = 664
 processes       = 4
 threads         = 2
 master          = True
@@ -13,5 +13,6 @@ vacuum          = True
 max-requests    = 5000
 stats           = {{ sockets_path }}/{{ item }}_stats.sock
 memory-report   = True
-daemonize       = {{ logs_path }}/{{ item }}/{{ uwsgi_site_log_name }}
+req-logger      = file:{{ logs_path }}/{{ item }}/requests.log
+logger          = file:{{ logs_path }}/{{ item }}/app.log
 harakiri        = 30

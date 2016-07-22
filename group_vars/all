@@ -7,7 +7,8 @@ django_develop_secret_key:  < set me in ./sensitive.yml >
 
 admin_htpasswd: /etc/nginx/htpasswd_strassengezwitscher_dev_admin
 uwsgi_path: /etc/uwsgi/vassals
-uwsgi_site_log_name: uwsgi.log
+uwsgi_site_app_log_name: app.log
+uwsgi_site_req_log_name: requests.log
 uwsgi_emperor_log_name: uwsgi-emperor.log
 logs_path: /var/log
 project_path: /home/deploy

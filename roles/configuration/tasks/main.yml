@@ -21,8 +21,6 @@
   stat: path={{ logs_path }}/{{ item }}
   with_items:
     - "{{ uwsgi_emperor_log_name }}"
-    - strassengezwitscher_dev/{{ uwsgi_site_log_name }}
-    - strassengezwitscher_master/{{ uwsgi_site_log_name }}
   register: logs_exist
 
 - name: Create uwsgi log files
