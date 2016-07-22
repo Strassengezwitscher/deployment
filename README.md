@@ -13,6 +13,7 @@ This does not configure the whole server. There are some things you need to do m
 - Setup and harden your SSH and setup public key authentication.
 - Create a user and a group `deploy` and add the user to the group as these scripts rely on both to exist.
 - Add the `deploy` user to the `sudoers` file: `deploy ALL=(ALL) ALL`
+- Make sure you have GnuPG installed (comes probably pre-installed)
 
 Moreover, this setup targets Ubuntu 16.04 LTS.
 
