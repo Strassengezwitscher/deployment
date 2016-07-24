@@ -1,7 +1,11 @@
 [uwsgi]
 chdir           = {{ project_path }}/{{ item }}/strassengezwitscher
 module          = strassengezwitscher.wsgi:application
+{% if item == "strassengezwitscher_dev" %}
+env             = DJANGO_SETTINGS_MODULE=strassengezwitscher.settings.production
+{% else %}
 env             = DJANGO_SETTINGS_MODULE=strassengezwitscher.settings
+{% endif %}
 virtualenv      = {{ project_path }}/{{ item }}/venv
 socket          = {{ sockets_path }}/{{ item }}.sock
 chmod-socket    = 664

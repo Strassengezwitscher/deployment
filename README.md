@@ -14,6 +14,7 @@ This does not configure the whole server. There are some things you need to do m
 - Create a user and a group `deploy` and add the user to the group as these scripts rely on both to exist.
 - Add the `deploy` user to the `sudoers` file: `deploy ALL=(ALL) ALL`
 - Make sure you have GnuPG installed (comes probably pre-installed)
+- You need to manually create a file containg passwords etc., see below.
 
 Moreover, this setup targets Ubuntu 16.04 LTS.
 
@@ -34,6 +35,20 @@ Example:
 `
 ./deploy.sh master.yml
 `
+
+### Manual steps
+In production mode you will need to set some sensitive values such as email account credentials. Create a file named `sensitive_settings.py` in the `settings` directory and override the following settings (check `production.py` for their meanings and dummy values):
+
+- SECRET_KEY
+- ADMINS
+- DEFAULT_FROM_EMAIL
+- SERVER_EMAIL
+- EMAIL_FROM_CONTACT
+- EMAIL_TO_CONTACT_CONFIDENTIAL
+- EMAIL_TO_CONTACT_NON_CONFIDENTIAL
+- EMAIL_HOST
+- EMAIL_HOST_USER
+- EMAIL_HOST_PASSWORD
 
 ## Using this deployment for your own server
 
