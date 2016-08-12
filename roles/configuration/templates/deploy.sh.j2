@@ -12,11 +12,11 @@ if [ -f gulpfile.js ]; then
 	node_modules/gulp/bin/gulp.js dist --production
 fi
 {% if item.dir == "strassengezwitscher_dev" %}
-DJANGO_SETTINGS_MODULE=strassengezwitscher.settings.production python strassengezwitscher/manage.py collectstatic --noinput
-DJANGO_SETTINGS_MODULE=strassengezwitscher.settings.production python strassengezwitscher/manage.py migrate --noinput
+DJANGO_SETTINGS_MODULE={{ develop_project_name }}.settings.production python {{ develop_project_name }}/manage.py collectstatic --noinput
+DJANGO_SETTINGS_MODULE={{ develop_project_name }}.settings.production python {{ develop_project_name }}/manage.py migrate --noinput
 {% else %}
-python strassengezwitscher/manage.py collectstatic --noinput
-python strassengezwitscher/manage.py migrate --noinput
+python {{ master_project_name }}/manage.py collectstatic --noinput
+python {{ master_project_name }}/manage.py migrate --noinput
 {% endif %}
 if [ -f /run/uwsgi/{{ item.dir }}.pid ]; then
 	uwsgi --reload /run/uwsgi/{{ item.dir }}.pid

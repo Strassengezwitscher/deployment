@@ -5,6 +5,8 @@ admin_password:             < set me in ./sensitive.yml >
 django_master_secret_key:   < set me in ./sensitive.yml >
 django_develop_secret_key:  < set me in ./sensitive.yml >
 
+master_project_name: strassengezwitscher
+develop_project_name: crowdgezwitscher
 admin_htpasswd: /etc/nginx/htpasswd_strassengezwitscher_dev_admin
 uwsgi_path: /etc/uwsgi/vassals
 uwsgi_site_app_log_name: app.log
