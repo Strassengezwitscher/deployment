@@ -4,8 +4,8 @@
   git: accept_hostkey=yes force=yes repo=git@github.com:Strassengezwitscher/Strassengezwitscher.git dest={{ project_path }}/{{ dir }}/ version={{ branch }}
   notify: restart uwsgi
 
-- name: Install production specific django settings
-  template: src=localsettings.py.j2 dest={{ project_path }}/{{ dir }}/strassengezwitscher/strassengezwitscher/localsettings.py
+# - name: Install production specific django settings
+#   template: src=localsettings.py.j2 dest={{ project_path }}/{{ dir }}/strassengezwitscher/strassengezwitscher/localsettings.py
 
 - name: Install dependencies using npm
   npm: path={{ project_path }}/{{ dir }} production=yes global=no
