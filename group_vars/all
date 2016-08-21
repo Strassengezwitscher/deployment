@@ -1,9 +1,17 @@
 ---
 
-ansible_become_pass:        < set me in ./sensitive.yml >
-admin_password:             < set me in ./sensitive.yml >
-django_master_secret_key:   < set me in ./sensitive.yml >
-django_develop_secret_key:  < set me in ./sensitive.yml >
+ansible_become_pass:                        < set me in ./sensitive.yml >
+admin_password:                             < set me in ./sensitive.yml >
+django_master_secret_key:                   < set me in ./sensitive.yml >
+django_develop_secret_key:                  < set me in ./sensitive.yml >
+django_admins:                              < set me in ./sensitive.yml >
+django_default_from_email:                  < set me in ./sensitive.yml >
+django_email_from_contact:                  < set me in ./sensitive.yml >
+django_email_to_contact_confidential:       < set me in ./sensitive.yml >
+django_email_to_contact_non_confidential:   < set me in ./sensitive.yml >
+django_email_host:                          < set me in ./sensitive.yml >
+django_email_host_user:                     < set me in ./sensitive.yml >
+django_email_host_password:                 < set me in ./sensitive.yml >
 
 master_project_name: strassengezwitscher
 develop_project_name: crowdgezwitscher

@@ -1,0 +1,28 @@
+"""
+Part of Django production settings, values are sensitive.
+"""
+
+
+SECRET_KEY = '{{ secret_key }}'
+
+ADMINS = {{ django_admins }}
+#
+# Default email address to use for various automated correspondence; not for error reporting
+DEFAULT_FROM_EMAIL = '{{ django_default_from_email }}'
+#
+# email address that error messages come from
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
+#
+# Email address to use as sender for delivering contact forms
+EMAIL_FROM_CONTACT = '{{ django_email_from_contact }}'
+#
+# Email addresses to use as recipients for confidential contact forms
+EMAIL_TO_CONTACT_CONFIDENTIAL = {{ django_email_to_contact_confidential }}
+#
+# Email addresses to use as recipients for non-confidential contact forms
+EMAIL_TO_CONTACT_NON_CONFIDENTIAL = {{ django_email_to_contact_non_confidential }}
+#
+# Your email provider's host and your credentials
+EMAIL_HOST = '{{ django_email_host }}'
+EMAIL_HOST_USER = '{{ django_email_host_user }}'
+EMAIL_HOST_PASSWORD = '{{ django_email_host_password }}'
