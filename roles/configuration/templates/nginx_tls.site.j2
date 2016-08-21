@@ -36,11 +36,11 @@ server {
 
     # Django media
     location /media  {
-        alias {{ project_path }}/{{ item.branch }}/{{ item.project_name }}/media;  # Django project's media files
+        alias {{ project_path }}/{{ item.branch }}/media;  # Django project's media files
     }
 
     location /static {
-        alias {{ project_path }}/{{ item.branch }}/{{ item.project_name }}/static; # Django project's static files
+        alias {{ project_path }}/{{ item.branch }}/static; # Django project's static files
     }
 
     {% if item.wordpress is defined %}
