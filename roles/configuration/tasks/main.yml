@@ -34,7 +34,7 @@
   become: yes
 
 - name: Enable autostarting uwsgi
-  service: name=emperor.uwsgi enabled=yes
+  service: name=emperor.uwsgi enabled=yes  # TODO: use systemd with daemon_reload instead (supported in ansible 2.2)
   become: yes
 
 - name: Install uwsgi reload scripts
