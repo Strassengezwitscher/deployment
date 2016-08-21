@@ -2,3 +2,4 @@
 
 dependencies:
   - { role: support/npm }
+  - { role: support/uwsgi }
