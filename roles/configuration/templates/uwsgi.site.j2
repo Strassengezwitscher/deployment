@@ -1,13 +1,7 @@
 [uwsgi]
-{% if item == "strassengezwitscher_dev" %}
-chdir           = {{ project_path }}/{{ item }}/{{ develop_project_name }}
-module          = {{ develop_project_name }}.wsgi:application
-env             = DJANGO_SETTINGS_MODULE={{ develop_project_name }}.settings.production
-{% else %}
-chdir           = {{ project_path }}/{{ item }}/{{ master_project_name }}
-module          = {{ master_project_name }}.wsgi:application
-env             = DJANGO_SETTINGS_MODULE={{ master_project_name }}.settings
-{% endif %}
+chdir           = {{ project_path }}/{{ item }}/{{ project_name }}
+module          = {{ project_name }}.wsgi:application
+env             = DJANGO_SETTINGS_MODULE={{ project_name }}.settings.production
 virtualenv      = {{ project_path }}/{{ item }}/venv
 socket          = {{ sockets_path }}/{{ item }}.sock
 chmod-socket    = 664

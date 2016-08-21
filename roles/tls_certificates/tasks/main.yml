@@ -1,8 +1,8 @@
 - name: Install http-only nginx config(s)
   template: src=nginx_no_tls.site.j2 dest=/etc/nginx/sites-available/{{ item.branch }}
   with_items:
-    - { branch: 'strassengezwitscher_dev', project_name: '{{ develop_project_name }}', server_name: '{{ dev_server_names }}', dir: 'dev.streetcoverage.org', htaccess: True }
-    - { branch: 'strassengezwitscher_master', project_name: '{{ master_project_name }}', server_name: '{{ master_server_names }}', dir: 'streetcoverage.org' }
+    - { branch: 'strassengezwitscher_dev', server_name: '{{ dev_server_names }}', dir: 'dev.streetcoverage.org', htaccess: True }
+    - { branch: 'strassengezwitscher_master', server_name: '{{ master_server_names }}', dir: 'streetcoverage.org' }
 
 - name: Enable nginx configs
   file: src=/etc/nginx/sites-available/{{ item }} dest=/etc/nginx/sites-enabled/{{ item }} state=link
