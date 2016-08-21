@@ -7,6 +7,9 @@
 - name: Install sensitive production django settings
   template: src=sensitive_settings.py.j2 dest={{ project_path }}/{{ dir }}/{{ project_name }}/{{ project_name }}/settings/sensitive_settings.py
 
+- name: Install angular configuration
+  template: src=sensitive_conf.ts.j2 dest={{ project_path }}/{{ dir }}/frontend/config/sensitive_conf.ts
+
 - name: Install dependencies using npm
   npm: path={{ project_path }}/{{ dir }} production=yes global=no
 
