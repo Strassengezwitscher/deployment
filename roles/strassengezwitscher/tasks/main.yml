@@ -7,6 +7,12 @@
 - name: Install sensitive production django settings
   template: src=sensitive_settings.py.j2 dest={{ project_path }}/{{ dir }}/{{ project_name }}/{{ project_name }}/settings/sensitive_settings.py
 
+- name: Restrict file-based access on Django app
+  file:
+    path: "{{ project_path }}/{{ dir }}/{{ project_name }}"
+    recurse: yes
+    mode: u=rwX,g=,o=
+
 - name: Install angular configuration
   template: src=sensitive_conf.ts.j2 dest={{ project_path }}/{{ dir }}/frontend/config/sensitive_conf.ts
 
