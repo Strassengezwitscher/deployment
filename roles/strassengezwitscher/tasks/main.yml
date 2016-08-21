@@ -20,7 +20,15 @@
   pip: requirements={{ project_path }}/{{ dir }}/requirements.txt virtualenv={{ project_path }}/{{ dir }}/venv
 
 - name: Collect django staticfiles
-  django_manage: app_path={{ project_path }}/{{ dir }}/{{ project_name }}/ command=collectstatic virtualenv={{ project_path }}/{{ dir }}/venv
+  django_manage: >
+    app_path={{ project_path }}/{{ dir }}/{{ project_name }}/
+    command=collectstatic
+    virtualenv={{ project_path }}/{{ dir }}/venv
+    settings={{ project_name }}.settings.production
 
 - name: Migrate django databases
-  django_manage: app_path={{ project_path }}/{{ dir }}/{{ project_name }}/ command=migrate virtualenv={{ project_path }}/{{ dir }}/venv
+  django_manage: >
+    app_path={{ project_path }}/{{ dir }}/{{ project_name }}/
+    command=migrate
+    virtualenv={{ project_path }}/{{ dir }}/venv
+    settings={{ project_name }}.settings.production
