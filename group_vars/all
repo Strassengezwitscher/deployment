@@ -13,6 +13,10 @@ django_email_host:                          < set me in ./sensitive.yml >
 django_email_host_user:                     < set me in ./sensitive.yml >
 django_email_host_password:                 < set me in ./sensitive.yml >
 django_grecaptcha_key:                      < set me in ./sensitive.yml >
+django_twitter_consumer_key:                < set me in ./sensitive.yml >
+django_twitter_consumer_secret:             < set me in ./sensitive.yml >
+django_twitter_access_token:                < set me in ./sensitive.yml >
+django_twitter_access_secret:               < set me in ./sensitive.yml >
 angular_grecaptcha_key:                     < set me in ./sensitive.yml >
 
 project_name: crowdgezwitscher
