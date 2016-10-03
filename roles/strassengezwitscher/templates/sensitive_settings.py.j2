@@ -17,10 +17,18 @@ SERVER_EMAIL = DEFAULT_FROM_EMAIL
 EMAIL_FROM_CONTACT = '{{ django_email_from_contact }}'
 #
 # Email addresses to use as recipients for confidential contact forms
-EMAIL_TO_CONTACT_CONFIDENTIAL = {{ django_email_to_contact_confidential }}
+{% if branch == "master" %}
+EMAIL_TO_CONTACT_CONFIDENTIAL = {{ django_master_email_to_contact_confidential }}
+{% else %}
+EMAIL_TO_CONTACT_CONFIDENTIAL = {{ django_develop_email_to_contact_confidential }}
+{% endif %}
 #
 # Email addresses to use as recipients for non-confidential contact forms
-EMAIL_TO_CONTACT_NON_CONFIDENTIAL = {{ django_email_to_contact_non_confidential }}
+{% if branch == "master" %}
+EMAIL_TO_CONTACT_NON_CONFIDENTIAL = {{ django_master_email_to_contact_non_confidential }}
+{% else %}
+EMAIL_TO_CONTACT_NON_CONFIDENTIAL = {{ django_develop_email_to_contact_non_confidential }}
+{% endif %}
 #
 # Your email provider's host and your credentials
 EMAIL_HOST = '{{ django_email_host }}'
