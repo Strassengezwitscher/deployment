@@ -18,6 +18,10 @@ server {
     ssl_certificate         /etc/letsencrypt/live/{{ item.dir }}/fullchain.pem;
     ssl_certificate_key     /etc/letsencrypt/live/{{ item.dir }}/privkey.pem;
     
+    if ($host ~* crowdgezwitscher.de) {
+        rewrite ^/$ /map;
+    }
+
     charset     utf-8;
 
     {% if item.htaccess is defined %}
