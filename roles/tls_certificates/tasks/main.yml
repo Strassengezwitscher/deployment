@@ -17,7 +17,7 @@
 - name: Get TLS certificates
   command: letsencrypt certonly --webroot -w {{ letsencrypt_webroot}} {{ item }} --non-interactive
   with_items:
-    - "-d streetcoverage.org -d www.streetcoverage.org -d strassengezwitscher.de -d www.strassengezwitscher.de"
+    - "-d streetcoverage.org -d www.streetcoverage.org -d strassengezwitscher.de -d www.strassengezwitscher.de -d crowdgezwitscher.de -d www.crowdgezwitscher.de"
     - "-d dev.streetcoverage.org"
     - "-d mattermost.streetcoverage.org"
 
