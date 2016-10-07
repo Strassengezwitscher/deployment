@@ -22,6 +22,11 @@
   file: path={{ letsencrypt_webroot }} state=directory
   become: yes
 
+- name: Install general nginx config
+  copy: src=nginx.conf dest=/etc/nginx/nginx.conf
+  become: yes
+  notify: reload nginx
+
 - name: Install global restrictions
   copy: src=global_restrictions.conf dest=/etc/nginx/include.d/global_restrictions.conf
   become: yes
