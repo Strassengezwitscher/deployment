@@ -4,6 +4,13 @@
   with_items:
     - git
 
+- name: Install gulp and npm-prune via npm
+  npm: name={{ item }} production=yes global=yes
+  become: yes
+  with_items:
+    - gulp
+    - prune
+
 - name: Install uwsgi configs
   template: src=uwsgi.site.j2 dest={{ uwsgi_path }}/{{ item }}.ini
   become: yes
