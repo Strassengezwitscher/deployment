@@ -25,7 +25,7 @@
   npm: path={{ project_path }}/{{ dir }} production=yes global=no
 
 - name: Clean JS bundle and compilation results etc.
-  command: gulp clean
+  command: gulp clean --production
   args:
     chdir: '{{ project_path }}/{{ dir }}/'
     removes: '{{ project_path }}/{{ dir }}/gulpfile.js' # run only if gulpfile.js exists (it is not removed)
