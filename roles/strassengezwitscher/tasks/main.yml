@@ -16,8 +16,19 @@
 - name: Install angular configuration
   template: src=sensitive_conf.ts.j2 dest={{ project_path }}/{{ dir }}/frontend/config/sensitive_conf.ts
 
+- name: Remove outdated dependencies
+  command: npm prune
+  args:
+    chdir: '{{ project_path }}/{{ dir }}/'
+
 - name: Install dependencies using npm
   npm: path={{ project_path }}/{{ dir }} production=yes global=no
+
+- name: Clean JS bundle and compilation results etc.
+  command: gulp clean
+  args:
+    chdir: '{{ project_path }}/{{ dir }}/'
+    removes: '{{ project_path }}/{{ dir }}/gulpfile.js' # run only if gulpfile.js exists (it is not removed)
 
 - name: Build JS bundle
   command: gulp build --production

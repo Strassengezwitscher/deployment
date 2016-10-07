@@ -8,7 +8,9 @@ git pull
 chmod -R u=rwX,g=,o= {{ project_name }}
 source venv/bin/activate
 pip install -r requirements.txt
+npm prune
 npm install --production
+gulp clean
 gulp build --production
 DJANGO_SETTINGS_MODULE={{ project_name }}.settings.production python {{ project_name }}/manage.py collectstatic --noinput
 DJANGO_SETTINGS_MODULE={{ project_name }}.settings.production python {{ project_name }}/manage.py migrate --noinput
