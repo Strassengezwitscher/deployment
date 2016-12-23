@@ -1,49 +1,69 @@
 ---
 
 - name: Install packages
-  apt: name={{ item }} state=present update_cache=yes cache_valid_time=604800
+  apt:
+    name: '{{ item }}'
+    state: present
+    update_cache: yes
+    cache_valid_time: 604800
   become: yes
   with_items:
     - nginx
     - letsencrypt
 
 - name: Create sites directories
-  file: path=/etc/nginx/sites-{{ item }} state=directory
+  file:
+    path: '/etc/nginx/sites-{{ item }}'
+    state: directory
   become: yes
   with_items:
     - available
     - enabled
 
 - name: Create include.d directory
-  file: path=/etc/nginx/include.d state=directory
+  file:
+    path: /etc/nginx/include.d
+    state: directory
   become: yes
 
 - name: Create letsencrypt webroot directory
-  file: path={{ letsencrypt_webroot }} state=directory
+  file:
+    path: '{{ letsencrypt_webroot }}'
+    state: directory
   become: yes
 
 - name: Install general nginx config
-  copy: src=nginx.conf dest=/etc/nginx/nginx.conf
+  copy:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
   become: yes
   notify: reload nginx
 
 - name: Install global restrictions
-  copy: src=global_restrictions.conf dest=/etc/nginx/include.d/global_restrictions.conf
+  copy:
+    src: global_restrictions.conf
+    dest: /etc/nginx/include.d/global_restrictions.conf
   become: yes
   notify: reload nginx
 
 - name: Install fastcgi parameter configuration
-  copy: src=fastcgi.conf dest=/etc/nginx/fastcgi.conf
+  copy:
+    src: fastcgi.conf
+    dest: /etc/nginx/fastcgi.conf
   become: yes
   notify: reload nginx
 
 - name: Install support for letsencrypt webroot
-  template: src=letsencrypt.conf.j2 dest=/etc/nginx/include.d/letsencrypt.conf
+  template:
+    src: letsencrypt.conf.j2
+    dest: /etc/nginx/include.d/letsencrypt.conf
   become: yes
   notify: reload nginx
 
 - name: Remove default config
-  file: name=/etc/nginx/sites-{{ item }}/default state=absent
+  file:
+    name: '/etc/nginx/sites-{{ item }}/default'
+    state: absent
   become: yes
   with_items:
     - available
@@ -51,15 +71,23 @@
   notify: reload nginx
 
 - name: Install default site
-  copy: src=default.site dest=/etc/nginx/sites-available/default.site
+  copy:
+    src: default.site
+    dest: /etc/nginx/sites-available/default.site
   become: yes
   notify: reload nginx
 
 - name: Enable default site
-  file: src=/etc/nginx/sites-available/default.site dest=/etc/nginx/sites-enabled/default.site state=link
+  file:
+    src: /etc/nginx/sites-available/default.site
+    dest: /etc/nginx/sites-enabled/default.site
+    state: link
   become: yes
   notify: reload nginx
 
 - name: Start
-  service: name=nginx enabled=yes state=started
+  service:
+    name: nginx
+    enabled: yes
+    state: started
   become: yes

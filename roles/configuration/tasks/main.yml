@@ -1,18 +1,27 @@
 - name: Install required packages
-  apt: name={{ item }} state=present update_cache=yes cache_valid_time=604800
+  apt:
+    name: '{{ item }}'
+    state: present
+    update_cache: yes
+    cache_valid_time: 604800
   become: yes
   with_items:
     - git
 
 - name: Install gulp and npm-prune via npm
-  npm: name={{ item }} production=yes global=yes
+  npm:
+    name: '{{ item }}'
+    production: yes
+    global: yes
   become: yes
   with_items:
     - gulp
     - prune
 
 - name: Install uwsgi configs
-  template: src=uwsgi.site.j2 dest={{ uwsgi_path }}/{{ item }}.ini
+  template:
+    src: uwsgi.site.j2
+    dest: '{{ uwsgi_path }}/{{ item }}.ini'
   become: yes
   with_items:
     - strassengezwitscher_dev
@@ -20,7 +29,9 @@
   notify: restart uwsgi
 
 - name: Install uwsgi emperor config
-  template: src=emperor.ini.j2 dest=/etc/uwsgi/emperor.ini
+  template:
+    src: emperor.ini.j2
+    dest: /etc/uwsgi/emperor.ini
   become: yes
   notify: restart uwsgi
 
@@ -31,41 +42,66 @@
   register: logs_exist
 
 - name: Create uwsgi log files
-  file: path={{ logs_path }}/{{ item.item }} state=touch owner=deploy group=deploy
+  file:
+    path: '{{ logs_path }}/{{ item.item }}'
+    state: touch
+    owner: deploy
+    group: deploy
   become: yes
   when: not item.stat.exists
   with_items: '{{ logs_exist.results }}'
 
 - name: Install uwsgi systemd service
-  copy: src=emperor.uwsgi.service dest=/etc/systemd/system/emperor.uwsgi.service
+  copy:
+    src: emperor.uwsgi.service
+    dest: /etc/systemd/system/emperor.uwsgi.service
   become: yes
 
 - name: Enable autostarting uwsgi
-  service: name=emperor.uwsgi enabled=yes  # TODO: use systemd with daemon_reload instead (supported in ansible 2.2)
+  service: # TODO: use systemd with daemon_reload instead (supported in ansible 2.2)
+    name: emperor.uwsgi
+    enabled: yes
   become: yes
 
 - name: Install uwsgi reload scripts
-  template: src=reload.sh.j2 dest=/root/reload_{{ item }}.sh mode=0754
+  template:
+    src: reload.sh.j2
+    dest: '/root/reload_{{ item }}.sh'
+    mode: 0754
   become: yes
   with_items:
     - strassengezwitscher_dev
     - strassengezwitscher_master
 
 - name: Install htpasswd
-  htpasswd: name=admin path={{ admin_htpasswd }} password={{ admin_password }} state=present
+  htpasswd:
+    name: admin
+    path: '{{ admin_htpasswd }}'
+    password: '{{ admin_password }}'
   become: yes
   notify: reload nginx
 
 - name: Install https nginx configs
-  template: src=nginx_tls.site.j2 dest=/etc/nginx/sites-available/{{ item.branch }}
+  template:
+    src: nginx_tls.site.j2
+    dest: '/etc/nginx/sites-available/{{ item.branch }}'
   become: yes
   with_items:
-    - { branch: 'strassengezwitscher_dev', server_name: '{{ dev_server_names }}', dir: 'dev.streetcoverage.org', htaccess: True }
-    - { branch: 'strassengezwitscher_master', server_name: '{{ master_server_names }}', dir: 'streetcoverage.org', wordpress: True }
+    - { branch: 'strassengezwitscher_dev',
+        server_name: '{{ dev_server_names }}',
+        dir: 'dev.streetcoverage.org',
+        htaccess: True }
+    - { branch: 'strassengezwitscher_master',
+        server_name: '{{ master_server_names }}',
+        dir: 'streetcoverage.org',
+        wordpress: True }
   notify: reload nginx
 
 - name: Enable nginx configs
-  file: src=/etc/nginx/sites-available/{{ item }} dest=/etc/nginx/sites-enabled/{{ item }} state=link
+  file:
+    src: '/etc/nginx/sites-available/{{ item }}'
+    dest: '/etc/nginx/sites-enabled/{{ item }}'
+    state: link
   become: yes
   with_items:
     - strassengezwitscher_dev
@@ -73,13 +109,21 @@
   notify: reload nginx
 
 - name: Install deployment scripts
-  template: src=deploy.sh.j2 dest=/home/deploy/{{ item.script_name }}.sh mode=0754
+  template:
+    src: deploy.sh.j2
+    dest: '/home/deploy/{{ item.script_name }}.sh'
+    mode: 0754
   with_items:
-    - { dir: 'strassengezwitscher_dev', script_name: 'deploy_develop' }
-    - { dir: 'strassengezwitscher_master', script_name: 'deploy_master' }
+    - { dir: 'strassengezwitscher_dev',
+        script_name: 'deploy_develop' }
+    - { dir: 'strassengezwitscher_master',
+        script_name: 'deploy_master' }
 
 - name: allow travis to run deployment scripts
-  lineinfile: 'dest=/etc/sudoers state=present line="travis ALL=(deploy) NOPASSWD: /home/deploy/deploy_{{ item }}.sh"'
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    line: "travis ALL=(deploy) NOPASSWD: /home/deploy/deploy_{{ item }}.sh"
   become: yes
   with_items:
     - master

@@ -1,7 +1,11 @@
 ---
 
 - name: Create directories owned by user deploy
-  file: dest={{ item }} owner=deploy group=deploy state=directory
+  file:
+    dest: '{{ item }}'
+    owner: deploy
+    group: deploy
+    state: directory
   become: yes
   with_items:
     - "{{ logs_path }}/strassengezwitscher_dev"

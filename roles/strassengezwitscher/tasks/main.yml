@@ -1,11 +1,18 @@
 ---
 
 - name: Fetch repository
-  git: accept_hostkey=yes force=yes repo=git@github.com:Strassengezwitscher/Strassengezwitscher.git dest={{ project_path }}/{{ dir }}/ version={{ branch }}
+  git:
+    accept_hostkey: yes
+    force: yes
+    repo: git@github.com:Strassengezwitscher/Strassengezwitscher.git
+    dest: '{{ project_path }}/{{ dir }}/'
+    version: '{{ branch }}'
   notify: restart uwsgi
 
 - name: Install sensitive production django settings
-  template: src=sensitive_settings.py.j2 dest={{ project_path }}/{{ dir }}/{{ project_name }}/{{ project_name }}/settings/sensitive_settings.py
+  template:
+    src: sensitive_settings.py.j2
+    dest: '{{ project_path }}/{{ dir }}/{{ project_name }}/{{ project_name }}/settings/sensitive_settings.py'
 
 - name: Restrict file-based access on Django app
   file:
@@ -14,7 +21,9 @@
     mode: u=rwX,g=,o=
 
 - name: Install angular configuration
-  template: src=sensitive_conf.ts.j2 dest={{ project_path }}/{{ dir }}/frontend/config/sensitive_conf.ts
+  template:
+    src: sensitive_conf.ts.j2
+    dest: '{{ project_path }}/{{ dir }}/frontend/config/sensitive_conf.ts'
 
 - name: Remove outdated dependencies
   command: npm prune
@@ -22,7 +31,10 @@
     chdir: '{{ project_path }}/{{ dir }}/'
 
 - name: Install dependencies using npm
-  npm: path={{ project_path }}/{{ dir }} production=yes global=no
+  npm:
+    path: '{{ project_path }}/{{ dir }}'
+    production: yes
+    global: no
 
 - name: Clean JS bundle and compilation results etc.
   command: gulp clean --production
@@ -56,15 +68,15 @@
     executable: '{{ project_path }}/{{ dir }}/venv/bin/pip'
 
 - name: Collect django staticfiles
-  django_manage: >
-    app_path={{ project_path }}/{{ dir }}/{{ project_name }}/
-    command=collectstatic
-    virtualenv={{ project_path }}/{{ dir }}/venv
-    settings={{ project_name }}.settings.production
+  django_manage:
+    app_path: '{{ project_path }}/{{ dir }}/{{ project_name }}/'
+    command: collectstatic
+    virtualenv: '{{ project_path }}/{{ dir }}/venv'
+    settings: '{{ project_name }}.settings.production'
 
 - name: Migrate django databases
-  django_manage: >
-    app_path={{ project_path }}/{{ dir }}/{{ project_name }}/
-    command=migrate
-    virtualenv={{ project_path }}/{{ dir }}/venv
-    settings={{ project_name }}.settings.production
+  django_manage:
+    app_path: '{{ project_path }}/{{ dir }}/{{ project_name }}/'
+    command: migrate
+    virtualenv: '{{ project_path }}/{{ dir }}/venv'
+    settings: '{{ project_name }}.settings.production'

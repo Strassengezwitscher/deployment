@@ -16,7 +16,7 @@
   become: yes
 
 - name: Create sites directories
-  file: path={{ item }} state=directory
+  file:
+    path: "{{ uwsgi_path }}"
+    state: directory
   become: yes
-  with_items:
-    - "{{ uwsgi_path }}"

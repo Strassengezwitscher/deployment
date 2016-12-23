@@ -5,15 +5,28 @@
   become: yes
 
 - name: Create travis user
-  user: name=travis group=travis
+  user:
+    name: travis
+    group: travis
   become: yes
 
 - name: Create .ssh directory for travis
-  file: path=/home/travis/.ssh state=directory mode=0700 owner=travis group=travis
+  file:
+    path: /home/travis/.ssh
+    state: directory
+    mode: 0700
+    owner: travis
+    group: travis
   become: yes
 
 - name: Install keys
-  copy: src={{ item.name }} dest=/home/travis/.ssh/ mode={{ item.mode }} owner=travis group=travis
+  copy:
+    src: '{{ item.name }}'
+    dest: /home/travis/.ssh/
+    mode: '{{ item.mode }}'
+    owner: travis
+    group: travis
   become: yes
   with_items:
-    - { name: authorized_keys, mode: "0600" }
+    - { name: authorized_keys,
+        mode: "0600" }
