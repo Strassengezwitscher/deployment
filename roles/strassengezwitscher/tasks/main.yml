@@ -36,8 +36,24 @@
     chdir: '{{ project_path }}/{{ dir }}/'
     removes: '{{ project_path }}/{{ dir }}/gulpfile.js' # run only if gulpfile.js exists (it is not removed)
 
-- name: Install python packages
-  pip: requirements={{ project_path }}/{{ dir }}/requirements.txt virtualenv={{ project_path }}/{{ dir }}/venv
+# In theory, you can create a virtualenv and install packages in there in one step. This worked with Python 2.
+# With Python 3, the virtualenv was created, but the global pip2 executable was used for an unknown reason for the
+# actual installation of packages instead of the pip executable from the virtualenv.
+# Workaround with 2 steps:
+#  1. We create a virtualenv. As this is done with the pip module and at least one package must be installed,
+#     we make it install pip - which is installed by default in the virtualenv anyway.
+#  2. We install the dependency packages and force the pip executabe to be the one from the virtualenv.
+#     This leads to the packages being installed in the virtualenv.
+- name: Create virtualenv
+  pip:
+    name: pip
+    virtualenv: '{{ project_path }}/{{ dir }}/venv'
+    virtualenv_python: python3
+
+- name: Install python dependency packages in virtualenv
+  pip:
+    requirements: '{{ project_path }}/{{ dir }}/requirements.txt'
+    executable: '{{ project_path }}/{{ dir }}/venv/bin/pip'
 
 - name: Collect django staticfiles
   django_manage: >

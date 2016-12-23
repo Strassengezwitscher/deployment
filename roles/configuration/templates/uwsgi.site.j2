@@ -1,4 +1,5 @@
 [uwsgi]
+plugin          = python3,logfile
 chdir           = {{ project_path }}/{{ item }}/{{ project_name }}
 module          = {{ project_name }}.wsgi:application
 env             = DJANGO_SETTINGS_MODULE={{ project_name }}.settings.production

@@ -1,10 +1,14 @@
 ---
 
-- name: Install Python and related packages
-  apt: name={{ item }} state=present update_cache=yes cache_valid_time=604800
+- name: Install Python 3 and related packages
+  apt:
+    name: '{{ item }}'
+    state: present
+    update_cache: yes
+    cache_valid_time: 604800
   become: yes
   with_items:
-    - python
-    - python-pip
-    - python-dev
-    - python-passlib
+    - python3
+    - python3-pip
+    - python3-dev     # is this needed?
+    - python3-passlib # is this needed?
