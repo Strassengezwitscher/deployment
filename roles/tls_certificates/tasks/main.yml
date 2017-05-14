@@ -46,4 +46,4 @@
     hour: 4
     minute: 10
     weekday: 0
-    job: "letsencrypt renew --non-interactive > /dev/null 2>&1"
+    job: "letsencrypt renew --non-interactive > /dev/null 2>&1 && nginx -t > /dev/null 2>&1 && service nginx restart"
