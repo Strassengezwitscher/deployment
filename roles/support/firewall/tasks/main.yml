@@ -1,0 +1,18 @@
+---
+
+- name: Install firewall ufw
+  apt:
+    name: ufw
+    update_cache: yes
+  become: yes
+
+- name: Open ports for SSH and HTTP(S)
+  ufw:
+    state: enabled
+    policy: deny
+    rule: allow
+    name: "{{ item }}"
+  become: yes
+  with_items:
+    - OpenSSH
+    - Nginx Full

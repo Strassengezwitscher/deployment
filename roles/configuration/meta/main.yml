@@ -1,6 +1,7 @@
 ---
 
 dependencies:
+  - { role: support/firewall }
   - { role: support/nginx }
   - { role: support/uwsgi }
   - { role: support/auth }
