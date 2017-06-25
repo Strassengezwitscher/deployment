@@ -80,3 +80,19 @@
     command: migrate
     virtualenv: '{{ project_path }}/{{ dir }}/venv'
     settings: '{{ project_name }}.settings.production'
+
+- name: create SHELL for cron
+  cron:
+    name: SHELL
+    env: yes
+    value: /bin/bash
+
+- name: create cron job for fetching tweets
+  cron:
+    name: 'Fetch tweets for branch {{ branch }}'
+    minute: '*/1'
+    user: deploy
+    job: >
+      source {{ project_path }}/{{ dir }}/venv/bin/activate &&
+      python {{ project_path }}/{{ dir }}/{{ project_name }}/manage.py fetch_tweets
+      >> {{ project_path }}/{{ dir }}/fetch_tweets.log 2>&1
