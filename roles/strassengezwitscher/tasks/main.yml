@@ -93,6 +93,6 @@
     minute: '*/1'
     user: deploy
     job: >
-      source {{ project_path }}/{{ dir }}/venv/bin/activate &&
-      python {{ project_path }}/{{ dir }}/{{ project_name }}/manage.py fetch_tweets
-      >> {{ project_path }}/{{ dir }}/fetch_tweets.log 2>&1
+      cd {{ project_path }}/{{ dir }} &&
+      source venv/bin/activate &&
+      crowdgezwitscher/manage.py fetch_tweets >> fetch_tweets.log 2>&1
