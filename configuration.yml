@@ -3,8 +3,6 @@
 - name: Deploy configuration (nginx, uwsgi etc.) to server
   hosts: strassengezwitscher
   remote_user: deploy
-  vars_files:
-    - group_vars/sensitive.yml
 
   roles:
     - configuration

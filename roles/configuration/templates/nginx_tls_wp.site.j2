@@ -1,0 +1,58 @@
+# Upstream to abstract backend connection(s) for php
+upstream php {
+        server unix:/run/php/php7.0-fpm.sock;
+        #server 127.0.0.1:9000;
+}
+
+server {
+    server_name {{ wordpress_installs[0].url.split("//")[1] }};
+    listen 80;
+    return 301 https://$host$request_uri;
+}
+
+
+server {
+        listen    443 ssl;
+        ## Your website name goes here.
+        server_name {{ wordpress_installs[0].url.split("//")[1] }};
+        ssl_certificate         /etc/letsencrypt/live/{{ wordpress_installs[0].url.split("//")[1] }}/fullchain.pem;
+        ssl_certificate_key     /etc/letsencrypt/live/{{ wordpress_installs[0].url.split("//")[1] }}/privkey.pem;
+        include include.d/letsencrypt.conf;
+        include include.d/global_restrictions.conf;
+        access_log /var/log/nginx/{{ wordpress_installs[0].name }}.log;
+        error_log /var/log/nginx/{{ wordpress_installs[0].name }}.err;
+
+        ## Your only path reference.
+        root {{ wordpress_installs[0].path  }};
+        ## This should be in your http block and if it is, it's not needed here.
+        index index.php;
+
+#        location = /favicon.ico {
+#                log_not_found off;
+#                access_log off;
+#        }
+
+#        location = /robots.txt {
+#                allow all;
+#                log_not_found off;
+#                access_log off;
+#        }
+
+        location / {
+                # This is cool because no php is touched for static content.
+                # include the "?$args" part so non-default permalinks doesn't break when using query string
+                try_files $uri $uri/ /index.php?$args;
+        }
+
+        location ~ \.php$ {
+                #NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
+                include fastcgi.conf;
+                fastcgi_intercept_errors on;
+                fastcgi_pass php;
+        }
+
+        location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
+                expires max;
+                log_not_found off;
+        }
+}

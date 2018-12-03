@@ -1,0 +1,11 @@
+- name: Install https nginx configs
+  template:
+    src: nginx_tls_wp.site.j2
+    dest: '/etc/nginx/sites-available/{{ wordpress_installs[0].name  }}'
+
+- name: Enable nginx configs
+  file:
+    src: '/etc/nginx/sites-available/{{ wordpress_installs[0].name  }}'
+    dest: '/etc/nginx/sites-enabled/{{ wordpress_installs[0].name  }}'
+    state: link
+

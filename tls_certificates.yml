@@ -4,8 +4,6 @@
   hosts: strassengezwitscher
   remote_user: deploy
   become: yes
-  vars_files:
-    - group_vars/sensitive.yml
 
   roles:
     - tls_certificates

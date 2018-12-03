@@ -1,0 +1,14 @@
+mariadb_pip_dependencies:
+  - MySQL-python
+
+mariadb_apt_dependencies:
+  - software-properties-common
+  - build-essential
+  - libmysqlclient-dev
+  - python-mysqldb
+  - python-pip
+  - python-dev
+
+mariadb_apt_packages:
+  - mariadb-server
+  - mariadb-client

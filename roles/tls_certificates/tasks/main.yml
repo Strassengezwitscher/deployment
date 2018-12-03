@@ -2,14 +2,15 @@
   template:
     src: nginx_no_tls.site.j2
     dest: '/etc/nginx/sites-available/{{ item.branch }}'
+    force: no
   with_items:
     - { branch: 'strassengezwitscher_dev',
         server_name: '{{ dev_server_names }}',
-        dir: 'dev.streetcoverage.org',
         htaccess: True }
     - { branch: 'strassengezwitscher_master',
-        server_name: '{{ master_server_names }}',
-        dir: 'streetcoverage.org' }
+        server_name: '{{ master_server_names }}'}
+    - { branch: '{{ wordpress_installs[0].name  }}',
+        server_name: '{{ wordpress_installs[0].url.split("//")[1] }}'}
 
 - name: Enable nginx configs
   file:
@@ -19,13 +20,14 @@
   with_items:
     - strassengezwitscher_dev
     - strassengezwitscher_master
+    - '{{ master_server_names }}'
   notify: reload nginx
 
 - name: Start nginx
   service:
     name: nginx
     enabled: yes
-    state: started
+    state: restarted
 
 - name: Get TLS certificates
   command: letsencrypt certonly --webroot -w {{ letsencrypt_webroot}} {{ item }} --non-interactive
@@ -33,6 +35,7 @@
     - "-d streetcoverage.org -d www.streetcoverage.org -d strassengezwitscher.de -d www.strassengezwitscher.de -d crowdgezwitscher.de -d www.crowdgezwitscher.de"
     - "-d dev.streetcoverage.org"
     - "-d mattermost.streetcoverage.org"
+    - "-d shop.strassengezwitscher.de"
 
 - name: create PATH for cron
   cron:

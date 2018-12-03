@@ -3,8 +3,6 @@
 - name: Deploy django develop branch to server
   hosts: strassengezwitscher
   remote_user: deploy
-  vars_files:
-    - group_vars/sensitive.yml
 
   roles:
     - { role: strassengezwitscher, dir: 'strassengezwitscher_dev', branch: 'develop', secret_key: '{{ django_develop_secret_key }}' }

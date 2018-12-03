@@ -128,3 +128,10 @@
   with_items:
     - master
     - develop
+
+- name: include wordpress configuration for shop
+  include: wordpress.yml
+  become: yes
+  tags:
+    - wordpress
+  notify: reload nginx

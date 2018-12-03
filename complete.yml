@@ -3,8 +3,6 @@
 - name: Deploy everything to server
   hosts: strassengezwitscher
   remote_user: deploy
-  vars_files:
-    - group_vars/sensitive.yml
 
   roles:
     - complete

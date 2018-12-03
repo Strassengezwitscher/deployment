@@ -1,0 +1,57 @@
+---
+- name: Install mariadb apt dependencies
+  apt:
+    pkg: '{{mariadb_apt_dependencies}}'
+    state: present
+    update_cache: yes
+    cache_valid_time: 86400
+    allow_unauthenticated: yes
+
+- name: Install MySQL-python pip package
+  pip:
+    name: "{{ mariadb_pip_dependencies }}"
+    state: present
+
+- name: Install mariadb server apt packages
+  apt:
+    pkg: '{{mariadb_apt_packages}}'
+    state: present
+    allow_unauthenticated: yes
+
+- name: Set startup settings and start mariadb
+  service:
+    name: mysql
+    state: started
+    enabled: yes
+
+- name: 'Wait for mariadb to be started'
+  wait_for:
+    port: 3306
+    delay: 3
+    timeout: 300
+
+- name: Manage mariadb databases
+  mysql_db:
+    name: "{{ item.name }}"
+    collation: "{{ item.collation | default('utf8_general_ci') }}"
+    encoding: "{{ item.encoding | default('utf8') }}"
+    state: present
+    login_user: 'root'
+    login_password: '{{ mariadb_login_password | default(omit) }}'
+  with_items: 
+    - name: "{{ wordpress_installs[0].dbname }}"
+
+- name: 'Add/update mariadb users'
+  mysql_user:
+    name: "{{ item.name }}"
+    host: "{{ item.host | default('localhost') }}"
+    password: "{{ item.password }}"
+    priv: "{{ item.priv | default('*.*:USAGE') }}"
+    state: "{{ item.state | default('present') }}"
+    append_privs: "{{ item.append_privs | default('no') }}"
+    login_user: 'root'
+    login_password: '{{ mariadb_login_password | default(omit) }}'
+  with_items:
+    - name: "{{ wordpress_installs[0].dbuser  }}"
+      password: "{{ wordpress_installs[0].dbpass }}"
+      priv: "{{ wordpress_installs[0].dbname }}.*:ALL"

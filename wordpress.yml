@@ -1,0 +1,13 @@
+---
+
+# !! run with tag "wordpress" to skip the core app and leave it pristine
+- name: Deploy wordpress to server
+  hosts: strassengezwitscher
+  vars_files:
+    - group_vars/sensitive.yml
+  become: true
+  roles:
+    - {role: tls_certificates, tags:['wordpress']}
+    - configuration
+    - {role: ansible-wordpress-4.6.15, tags:['wordpress']}
+

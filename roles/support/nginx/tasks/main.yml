@@ -10,6 +10,9 @@
   with_items:
     - nginx
     - letsencrypt
+    - php7.0-cli
+    - php7.0-cgi
+    - php7.0-fpm
 
 - name: Create sites directories
   file:
