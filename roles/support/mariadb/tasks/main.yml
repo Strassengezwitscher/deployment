@@ -38,7 +38,7 @@
     state: present
     login_user: 'root'
     login_password: '{{ mariadb_login_password | default(omit) }}'
-  with_items: 
+  with_items:
     - name: "{{ wordpress_installs[0].dbname }}"
 
 - name: 'Add/update mariadb users'

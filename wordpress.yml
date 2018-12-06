@@ -7,7 +7,7 @@
     - group_vars/sensitive.yml
   become: true
   roles:
-    - {role: tls_certificates, tags:['wordpress']}
+    - {role: tls_certificates, tags: ['wordpress']}
     - configuration
-    - {role: ansible-wordpress-4.6.15, tags:['wordpress']}
+    - {role: ansible-wordpress-4.6.15, tags: ['wordpress']}
 

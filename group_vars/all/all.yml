@@ -42,22 +42,25 @@ dev_server_names: dev.streetcoverage.org
 # no custom template and config included at this point
 wordpress_installs:
       - name: wordpress
-        dbname: {{ vault_wordpress_installs.dbname }}
-        dbuser: {{ vault_wordpress_installs.dbuser }}
-        dbpass: {{ vault_wordpress_installs.dbpass }}
+        dbname: "{{ vault_wordpress_installs.dbname }}"
+        dbuser: "{{ vault_wordpress_installs.dbuser }}"
+        dbpass: "{{ vault_wordpress_installs.dbpass }}"
         dbhost: localhost
         path: /var/www/wordpress
+        locale: de_DE
         url: http://shop.strassengezwitscher.de
         title: Straßengezwitscher Shop
-        admin_name: {{ vault_wordpress_installs.admin_name }}
-        admin_email: {{ vault_wordpress_installs.admin_email }}
-        admin_password: {{ vault_wordpress_installs.admin_password }}
+        admin_name: "{{ vault_wordpress_installs.admin_name }}"
+        admin_email: "{{ vault_wordpress_installs.admin_email }}"
+        admin_password: "{{ vault_wordpress_installs.admin_password }}"
         themes:
           - name: twentyseventeen
             activate: true
           - name: twentythirteen
         plugins:
           - name: woocommerce
+            activate: false
+          - name: woocommerce-germanized
             activate: false
         users: {}
         options: []
